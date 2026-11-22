@@ -1,0 +1,189 @@
+
+=== Завдання 1. Аналіз запиту та індексація ===
+
+--- До індексу ---
+{
+  planStages: 'SORT <- COLLSCAN',
+  nReturned: 354,
+  totalKeysExamined: 0,
+  totalDocsExamined: 113999,
+  executionTimeMillis: 87,
+  rejectedPlans: 0
+}
+
+--- Після індексу { track_genre: 1, popularity: -1, audio_features.danceability: 1 } ---
+{
+  planStages: 'FETCH <- IXSCAN(genre_popularity_danceability)',
+  nReturned: 354,
+  totalKeysExamined: 412,
+  totalDocsExamined: 354,
+  executionTimeMillis: 2,
+  rejectedPlans: 0,
+  seeks: 58,
+  indexBounds: {
+    track_genre: [
+      '["pop", "pop"]'
+    ],
+    popularity: [
+      '[MaxKey, MinKey]'
+    ],
+    'audio_features.danceability': [
+      '[0.7, inf.0]'
+    ]
+  }
+}
+
+--- Порівняння: індекс { track_genre: 1, audio_features.danceability: 1, popularity: -1 } через hint ---
+{
+  planStages: 'FETCH <- SORT <- IXSCAN(genre_danceability_popularity)',
+  nReturned: 354,
+  totalKeysExamined: 354,
+  totalDocsExamined: 354,
+  executionTimeMillis: 2,
+  rejectedPlans: 0,
+  seeks: 1,
+  indexBounds: {
+    track_genre: [
+      '["pop", "pop"]'
+    ],
+    'audio_features.danceability': [
+      '[0.7, inf.0]'
+    ],
+    popularity: [
+      '[MaxKey, MinKey]'
+    ]
+  }
+}
+
+=== Завдання 2. Індекс для інших полів ===
+Документів з instrumentalness > 0.5: 18850
+Документів зі speechiness < 0.1: 90814
+explicit: false і audio_features.instrumentalness у межах: документів 18382, різних значень 500
+explicit: false і audio_features.speechiness у межах: документів 86342, різних значень 779
+
+--- До індексу ---
+{
+  planStages: 'COLLSCAN',
+  nReturned: 16141,
+  totalKeysExamined: 0,
+  totalDocsExamined: 113999,
+  executionTimeMillis: 137,
+  rejectedPlans: 0
+}
+
+--- Після індексу { explicit: 1, audio_features.instrumentalness: 1, audio_features.speechiness: 1 } ---
+{
+  planStages: 'FETCH <- IXSCAN(explicit_instrumentalness_speechiness)',
+  nReturned: 16141,
+  totalKeysExamined: 16602,
+  totalDocsExamined: 16141,
+  executionTimeMillis: 39,
+  rejectedPlans: 0,
+  seeks: 461,
+  indexBounds: {
+    explicit: [
+      '[false, false]'
+    ],
+    'audio_features.instrumentalness': [
+      '(0.5, inf.0]'
+    ],
+    'audio_features.speechiness': [
+      '[-inf.0, 0.1)'
+    ]
+  }
+}
+
+--- Запит з частини 2 (з loudness < -10) на тому ж індексі ---
+{
+  planStages: 'FETCH <- IXSCAN(explicit_instrumentalness_speechiness)',
+  nReturned: 9324,
+  totalKeysExamined: 16602,
+  totalDocsExamined: 16141,
+  executionTimeMillis: 47,
+  rejectedPlans: 0,
+  seeks: 461,
+  indexBounds: {
+    explicit: [
+      '[false, false]'
+    ],
+    'audio_features.instrumentalness': [
+      '(0.5, inf.0]'
+    ],
+    'audio_features.speechiness': [
+      '[-inf.0, 0.1)'
+    ]
+  }
+}
+
+--- Порівняння: індекс { explicit: 1, audio_features.speechiness: 1, audio_features.instrumentalness: 1 } через hint ---
+{
+  planStages: 'FETCH <- IXSCAN(explicit_speechiness_instrumentalness)',
+  nReturned: 16141,
+  totalKeysExamined: 16921,
+  totalDocsExamined: 16141,
+  executionTimeMillis: 44,
+  rejectedPlans: 0,
+  seeks: 780,
+  indexBounds: {
+    explicit: [
+      '[false, false]'
+    ],
+    'audio_features.speechiness': [
+      '[-inf.0, 0.1)'
+    ],
+    'audio_features.instrumentalness': [
+      '(0.5, inf.0]'
+    ]
+  }
+}
+
+=== Завдання 3. Покривний запит ===
+
+--- Запит з умови, без проєкції ---
+{
+  planStages: 'FETCH <- IXSCAN(genre_popularity_danceability)',
+  nReturned: 317,
+  totalKeysExamined: 317,
+  totalDocsExamined: 317,
+  executionTimeMillis: 0,
+  rejectedPlans: 0,
+  seeks: 1,
+  indexBounds: {
+    track_genre: [
+      '["pop", "pop"]'
+    ],
+    popularity: [
+      '[inf.0, 70]'
+    ],
+    'audio_features.danceability': [
+      '[MinKey, MaxKey]'
+    ]
+  }
+}
+
+--- Той самий фільтр з проєкцією { _id: 0, track_genre: 1, popularity: 1 } ---
+{
+  planStages: 'PROJECTION_COVERED <- IXSCAN(genre_popularity_danceability)',
+  nReturned: 317,
+  totalKeysExamined: 317,
+  totalDocsExamined: 0,
+  executionTimeMillis: 0,
+  rejectedPlans: 0,
+  seeks: 1,
+  indexBounds: {
+    track_genre: [
+      '["pop", "pop"]'
+    ],
+    popularity: [
+      '[inf.0, 70]'
+    ],
+    'audio_features.danceability': [
+      '[MinKey, MaxKey]'
+    ]
+  }
+}
+
+Індекси колекції tracks:
+ _id_: {"_id":1}
+ genre_popularity_danceability: {"track_genre":1,"popularity":-1,"audio_features.danceability":1}
+ explicit_instrumentalness_speechiness: {"explicit":1,"audio_features.instrumentalness":1,"audio_features.speechiness":1}

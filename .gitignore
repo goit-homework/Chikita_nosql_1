@@ -1,0 +1,6 @@
+.env
+dataset.csv
+*.zip
+__pycache__/
+.venv/
+.DS_Store

@@ -1,0 +1,264 @@
+
+=== Завдання 1. Треки для вечірки ===
+Документів: 7311
+Різних треків (track_id): 5328
+
+Перші 5 документів курсора:
+{
+  track_name: 'Calm Down (with Selena Gomez)',
+  popularity: 92,
+  track_genre: 'pop',
+  artists: [
+    'Rema',
+    'Selena Gomez'
+  ],
+  audio_features: {
+    danceability: 0.801,
+    energy: 0.806
+  },
+  duration_sec: 239.3
+}
+{
+  track_name: 'LOKERA',
+  popularity: 91,
+  track_genre: 'latin',
+  artists: [
+    'Rauw Alejandro',
+    'Lyanno',
+    'Brray'
+  ],
+  audio_features: {
+    danceability: 0.834,
+    energy: 0.828
+  },
+  duration_sec: 195.3
+}
+{
+  track_name: 'LOKERA',
+  popularity: 91,
+  track_genre: 'latino',
+  artists: [
+    'Rauw Alejandro',
+    'Lyanno',
+    'Brray'
+  ],
+  audio_features: {
+    danceability: 0.834,
+    energy: 0.828
+  },
+  duration_sec: 195.3
+}
+{
+  track_name: 'Party',
+  popularity: 90,
+  track_genre: 'latino',
+  artists: [
+    'Bad Bunny',
+    'Rauw Alejandro'
+  ],
+  audio_features: {
+    danceability: 0.829,
+    energy: 0.799
+  },
+  duration_sec: 227.6
+}
+{
+  track_name: 'Party',
+  popularity: 90,
+  track_genre: 'reggae',
+  artists: [
+    'Bad Bunny',
+    'Rauw Alejandro'
+  ],
+  audio_features: {
+    danceability: 0.829,
+    energy: 0.799
+  },
+  duration_sec: 227.6
+}
+
+Топ-10 за популярністю, кожен трек один раз:
+popularity  track_name                          artists                                             genres                                       
+92          Calm Down (with Selena Gomez)       Rema, Selena Gomez                                  pop                                          
+91          LOKERA                              Rauw Alejandro, Lyanno, Brray                       latin, latino                                
+90          Party                               Bad Bunny, Rauw Alejandro                           latino, reggae, reggaeton                    
+89          About Damn Time                     Lizzo                                               hip-hop                                      
+89          LA INOCENTE                         Mora, Feid                                          latino                                       
+89          One Kiss (with Dua Lipa)            Calvin Harris, Dua Lipa                             dance, electro, house, pop, progressive-house
+88          Believer                            Imagine Dragons                                     rock                                         
+88          Bad Habits                          Ed Sheeran                                          pop                                          
+88          La Llevo Al Cielo (Ft. Ñengo Flow)  Chris Jedi, Anuel AA, Chencho Corleone, Ñengo Flow  latino, reggae, reggaeton                    
+86          INDUSTRY BABY (feat. Jack Harlow)   Lil Nas X, Jack Harlow                              hip-hop, pop                                 
+
+=== Завдання 2. Виконавці, у яких усі треки популярні ===
+artist          track_count  min_popularity  avg_popularity
+Harry Styles    3            89              92            
+Olivia Rodrigo  5            86              87.4          
+IVE             3            79              84            
+Morgan Wallen   3            81              83.3          
+One Direction   5            80              83            
+Lil Nas X       8            77              82.8          
+Måneskin        5            76              82.6          
+TV Girl         3            80              81.7          
+Mora            6            69              80.3          
+Luke Combs      3            79              80.3          
+Maroon 5        3            70              79.7          
+Mitski          6            75              78.3          
+Mark Ronson     3            74              78.3          
+LE SSERAFIM     4            75              78            
+Beach Bunny     3            73              78            
+Shubh           5            69              77.8          
+SZA             4            65              77.8          
+Jhay Cortez     3            75              77.7          
+Mother Mother   3            76              77.3          
+Tiago PZK       4            72              77            
+
+Усього артистів, що проходять умову: 170 | без дедуплікації треків було б: 334
+
+=== Завдання 3. Нетипові треки ===
+Жанрів: 114 | з нетиповими треками: 112 | нетипових треків усього: 3506
+Жанри без нетипових треків: drum-and-bass, happy
+
+Документ для жанру acoustic (перші 3 треки з масиву):
+{
+  avg_tempo: 119,
+  genre: 'acoustic',
+  outlier_threshold: 178.5,
+  outlier_tracks: [
+    {
+      _id: ObjectId('6b030a05c4be42ad60a43d24'),
+      track_name: 'Fast Car',
+      popularity: 61,
+      artists: [
+        'Boyce Avenue',
+        'Kina Grannis'
+      ],
+      audio_features: {
+        tempo: 204.961
+      }
+    },
+    {
+      _id: ObjectId('6b030a05c4be42ad60a43dab'),
+      track_name: 'Running Up That Hill (A Deal With God) - Acoustic',
+      popularity: 51,
+      artists: [
+        'Jonah Baker'
+      ],
+      audio_features: {
+        tempo: 203.816
+      }
+    },
+    {
+      _id: ObjectId('6b030a05c4be42ad60a43dd5'),
+      track_name: 'Wanted Man',
+      popularity: 59,
+      artists: [
+        'Mat Kearney'
+      ],
+      audio_features: {
+        tempo: 203.651
+      }
+    }
+  ]
+}
+... треків у масиві: 34
+
+Підсумок по жанрах з найбільшою кількістю нетипових треків:
+genre      avg_tempo  outlier_threshold  outliers  fastest
+dancehall  112.9      171.4              81        219.571
+opera      105.6      167.3              65        201.832
+electro    120.8      175.7              62        203.968
+j-dance    114.9      175.1              62        212.276
+edm        122        166.6              58        213.928
+romance    109.7      168.4              57        203.375
+soul       114.6      171.5              57        207.266
+techno     128.3      159.7              55        201.643
+comedy     101        158                54        202.587
+dance      120.1      170.7              54        213.928
+
+=== Завдання 4. Треки для фонової роботи ===
+Документів: 9324
+Різних треків (track_id): 8311
+
+Перші 5 документів курсора:
+{
+  track_name: 'everything i wanted',
+  popularity: 86,
+  track_genre: 'electro',
+  artists: [
+    'Billie Eilish'
+  ],
+  audio_features: {
+    loudness: -14.454,
+    speechiness: 0.0994,
+    instrumentalness: 0.657
+  }
+}
+{
+  track_name: 'Clean White Noise - Loopable with no fade',
+  popularity: 85,
+  track_genre: 'sleep',
+  artists: [
+    'White Noise Baby Sleep',
+    'White Noise for Babies'
+  ],
+  audio_features: {
+    loudness: -28.46,
+    speechiness: 0,
+    instrumentalness: 1
+  }
+}
+{
+  track_name: 'Show Me How',
+  popularity: 79,
+  track_genre: 'indie',
+  artists: [
+    'Men I Trust'
+  ],
+  audio_features: {
+    loudness: -11.997,
+    speechiness: 0.0415,
+    instrumentalness: 0.534
+  }
+}
+{
+  track_name: 'Show Me How',
+  popularity: 79,
+  track_genre: 'indie-pop',
+  artists: [
+    'Men I Trust'
+  ],
+  audio_features: {
+    loudness: -11.997,
+    speechiness: 0.0415,
+    instrumentalness: 0.534
+  }
+}
+{
+  track_name: 'Experience',
+  popularity: 79,
+  track_genre: 'ambient',
+  artists: [
+    'Ludovico Einaudi',
+    'Daniel Hope',
+    'I Virtuosi Italiani'
+  ],
+  audio_features: {
+    loudness: -10.634,
+    speechiness: 0.0376,
+    instrumentalness: 0.961
+  }
+}
+
+Топ-10 за популярністю, кожен трек один раз:
+popularity  track_name                                 artists                                             genres                   
+86          everything i wanted                        Billie Eilish                                       electro                  
+85          Clean White Noise - Loopable with no fade  White Noise Baby Sleep, White Noise for Babies      sleep                    
+79          Show Me How                                Men I Trust                                         indie, indie-pop         
+79          Experience                                 Ludovico Einaudi, Daniel Hope, I Virtuosi Italiani  ambient, classical       
+78          K.                                         Cigarettes After Sex                                ambient, indie, indie-pop
+77          i was all over her                         salvia palth                                        emo, indie-pop           
+76          Cry                                        Cigarettes After Sex                                ambient, indie, indie-pop
+76          Losing Interest                            itssvd, Shiloh Dynasty                              chill, sad               
+76          Blondie                                    Current Joys                                        indie-pop                
+75          Dumb                                       Nirvana                                             alt-rock, alternative    
